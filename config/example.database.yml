@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: habtm0_development
+  username: generic
+  password: sample
+  host: localhost
+  port: 5432
+
+test:
+  <<: *default
+  #database: habtm0_test
+
+production:
+  <<: *default
+  database: habtm0_production
+  username: habtm0
+  password: <%= ENV['HABTM0_DATABASE_PASSWORD'] %>
