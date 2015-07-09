@@ -2,15 +2,17 @@ Rails.application.routes.draw do
 
   resources :tasks, except: [:edit, :new] do
     member do
-      get 'people', to: 'tasks#get_belongs_task'
-      put 'people/:person_id', to: 'tasks#assign_person_to_task'
+      get 'people_ids', to: 'tasks#get_people_ids'
+      post 'people_ids', to: 'tasks#post_people_ids'
     end
   end
 
   resources :people, except: [:edit, :new] do
     member do
-      get 'tasks', to: 'people#get_belongs_person'
-      put 'tasks/:task_id', to: 'people#assign_task_to_person'
+      get 'tasks_ids', to: 'people#get_tasks_ids'
+      # { people_ids: [1,2,3] }
+      post 'tasks_ids', to: 'people#post_tasks_ids'
+      # { people_ids: [1,2,3] }
     end
   end
 
