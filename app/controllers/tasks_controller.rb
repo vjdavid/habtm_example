@@ -1,26 +1,23 @@
 class TasksController < ApplicationController
 
-  def get_belongs_task
+  def get_people_ids
     @task = Task.find(params[:id])
 
-    @people_belongs_task = @task.people.ids
-
-    render json: @people_belongs_task
+    render json: @task.people.ids
   end
 
-  def assign_person_to_task
+  def post_people_ids
     @task = Task.find(params[:id])
 
-    @person = Person.find(params[:person_id])
+    @people = Person.find(params[:people_ids])
 
-    if @task.people << @person
-      @person_belongs_to_tasks = @task.people.ids
+    if @task.people << @people
+      @people_belongs_to_tasks = @task.people.ids
 
-      render json: @person_belongs_to_tasks
+      render json: @people_belongs_to_tasks
     else
       render json: @task.errors
     end
-
   end
 
   def index
