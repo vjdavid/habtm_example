@@ -1,14 +1,12 @@
 class PeopleController < ApplicationController
 
-  def get_tasks_ids
-    @person = Person.find(params[:id])
+  before_action :find_person, only: [:get_tasks_ids, :post_tasks_ids, :show, :update, :destroy]
 
+  def get_tasks_ids
     render json: @person.tasks.ids
   end
 
   def post_tasks_ids
-    @person = Person.find(params[:id])
-
     @tasks = Task.find(params[:tasks_ids])
 
     if @person.tasks << @tasks
@@ -27,9 +25,7 @@ class PeopleController < ApplicationController
   end
 
   def show
-    @person = Person.find(params[:id]).id
-
-    render json: @person
+    render json: @person.id
   end
 
   def create
@@ -43,8 +39,6 @@ class PeopleController < ApplicationController
   end
 
   def update
-    @person = Person.find(params[:id])
-
     if @person.update(person_params)
       render json: @person
     else
@@ -53,14 +47,16 @@ class PeopleController < ApplicationController
   end
 
   def destroy
-    @person = Person.find(params[:id])
-
     @person.destroy
 
     head :no_content
   end
 
   private
+
+  def find_person
+    @person = Person.find(params[:id])
+  end
 
   def person_params
     params.permit(:name)
