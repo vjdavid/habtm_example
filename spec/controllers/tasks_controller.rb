@@ -24,17 +24,28 @@ RSpec.describe TasksController, :type => :controller do
 
   describe "POST #post_people_ids" do
     it "assign people to one task" do
-      expect(1).to eq(1)
+
+      task = FactoryGirl.create(:task)
+      persons = []
+
+      3.times do
+        persons << FactoryGirl.create(:person)
+      end
+
+       people_ids = persons.map { |x| x.id }
+
+      expect {
+        post :post_people_ids, id: task.id, people_ids: people_ids
+      }.to change(Task, :count).by(3)
+
     end
   end
 
   describe "GET #index" do
     it "list all tasks" do
-
        3.times { FactoryGirl.create(:task) }
 
        get :index
-
        body = JSON.parse(response.body)
 
        expect(body.count).to eq(3)
