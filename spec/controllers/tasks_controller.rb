@@ -32,12 +32,12 @@ RSpec.describe TasksController, :type => :controller do
         persons << FactoryGirl.create(:person)
       end
 
-       people_ids = persons.map { |x| x.id }
+      people_ids = persons.map { |x| x.id }
 
-      expect {
-        post :post_people_ids, id: task.id, people_ids: people_ids
-      }.to change(Task, :count).by(3)
+      post :post_people_ids, id: task.id, people_ids: people_ids
 
+      body = JSON.parse(response.body)
+      expect(body.count).to eq(3)
     end
   end
 
