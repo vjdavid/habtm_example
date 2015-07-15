@@ -33,7 +33,6 @@ RSpec.describe PeopleController, :type => :controller do
 
       tasks_ids = tasks.map { |x| x.id }
 
-      binding.pry
       post :post_tasks_ids, id: person.id, tasks_ids: tasks_ids
       body = JSON.parse(response.body)
       expect(body.count).to eq(3)
